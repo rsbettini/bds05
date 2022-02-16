@@ -1,40 +1,46 @@
 package com.devsuperior.movieflix.entities;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
-import javax.persistence.FetchType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "tb_review")
 public class Review implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Column(columnDefinition="TEXT")
 	private String text;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "tb_review_user", 
-		joinColumns = @JoinColumn(name = "review_id"), 
-		inverseJoinColumns = @JoinColumn(name = "user_id"))
-	private Set<User> users = new HashSet<>();
+	@ManyToOne
+	@JoinColumn(name = "movie_id")
+	private Movie movie;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "tb_review_movie", 
-		joinColumns = @JoinColumn(name = "review_id"), 
-		inverseJoinColumns = @JoinColumn(name = "movie_id"))
-	private Set<Movie> movies = new HashSet<>();
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
 	public Review() {
 	}
 
-	public Review(Long id, String text) {
+	public Review(Long id, String text, Movie movie, User user) {
 		super();
 		this.id = id;
 		this.text = text;
+        this.movie = movie;
+        this.user = user;
 	}
 
 	public Long getId() {
@@ -51,6 +57,22 @@ public class Review implements Serializable {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+	
+	public Movie getMovie() {
+		return movie;
+	}
+
+	public void setMovie(Movie movie) {
+		this.movie = movie;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Override

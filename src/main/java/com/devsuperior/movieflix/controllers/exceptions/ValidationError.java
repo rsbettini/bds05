@@ -1,4 +1,4 @@
-package com.devsuperior.movieflix.resources.exceptions;
+package com.devsuperior.movieflix.controllers.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;
